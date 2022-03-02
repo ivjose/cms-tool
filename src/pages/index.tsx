@@ -2,6 +2,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 
 import { DefaultLayout } from '@/components/Layout'
+import RadialGraph from '@/components/RadialGraph'
 
 const HomePage: NextPage = () => {
   return (
@@ -21,6 +22,8 @@ const HomePage: NextPage = () => {
         >
           Button text
         </button>
+
+        <RadialGraph colors={['#4c4c4c', '#227622']} />
       </DefaultLayout>
     </>
   )

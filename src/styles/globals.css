@@ -5,3 +5,17 @@
 #__next {
   @apply h-full;
 }
+/* RadialGraph css overrider */
+
+[type~='radialBar']
+  .apexcharts-legend.apx-legend-position-bottom.apexcharts-align-center {
+  align-items: center;
+  flex-direction: column;
+  /* bottom: 0 !important; */
+}
+
+[type~='radialBar']
+  .apexcharts-legend-series:nth-of-type(1)
+  .apexcharts-legend-text {
+  font-size: 16px !important;
+}
