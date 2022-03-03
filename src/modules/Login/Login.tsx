@@ -1,64 +1,50 @@
-import InputText from '@/components/InputText'
+import * as yup from 'yup'
+import InputText from '@/components/Forms/InputText'
 import Form from '@/components/Forms/Form'
 
-type IFormValues = {
-  email: string
-}
+const schema = yup.object({
+  email: yup.string().email().defined().required('Please Enter your email'),
+
+  password: yup
+    .string()
+    .defined()
+    .required('Please Enter your password')
+    .matches(
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+      'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character'
+    ),
+})
+
+type IFormValues = yup.InferType<typeof schema>
 
 const Login = () => {
-  const onSubmit = (data: IFormValues) => alert(JSON.stringify(data))
+  const onSubmit = (data: IFormValues) => {
+    console.log(data)
+  }
   return (
     <div className="space-y-6">
       <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
         Account Login
       </h2>
 
-      <Form className="space-y-6" onSubmit={onSubmit}>
-        {({ register }) => (
+      <Form className="space-y-6" onSubmit={onSubmit} schema={schema}>
+        {({ register, formState: { errors } }) => (
           <>
-            <InputText label="email" {...register('email')} />
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Email address
-              </label>
-              <div className="mt-1">
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Password
-              </label>
-              <div className="mt-1">
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  required
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                />
-              </div>
-            </div>
+            <InputText
+              label="Email address"
+              error={errors?.email?.message}
+              {...register('email')}
+            />
+            <InputText
+              label="First Name"
+              error={errors?.password?.message}
+              {...register('password')}
+            />
 
             <div>
               <button
                 type="submit"
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
               >
                 Login
               </button>
@@ -81,7 +67,7 @@ const Login = () => {
       <div>
         <button
           type="button"
-          className="w-full flex justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          className="flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
         >
           No Account? Contact us now
         </button>
